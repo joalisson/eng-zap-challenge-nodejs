@@ -1,0 +1,35 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "A project to Zap challenge",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpileOnly server.ts",
+    "prod": "tsc && node ./build/server.js",
+    "test": "jest",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joalisson/eng-zap-challenge-nodejs.git"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Joálisson Andrade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joalisson/eng-zap-challenge-nodejs/issues"
+  },
+  "homepage": "https://github.com/joalisson/eng-zap-challenge-nodejs#readme",
+  "dependencies": {
+    "@types/express": "^4.17.2",
+    "axios": "^0.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.7.3",
+    "winston": "^3.2.1"
+  }
+}
