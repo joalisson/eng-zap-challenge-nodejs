@@ -1,5 +1,18 @@
-import hello from './hello';
+import * as express from 'express';
+import DataCache from '../dataCache';
+import logger from '../../logger';
 
-export {
-  hello,
-}
+const route = express.Router();
+
+const dataCache = new DataCache();
+
+route.get('/hello', async (req: express.Request, res: express.Response) => {
+  try {
+    const response: any = await dataCache.get();
+    res.json(response);
+  } catch (error) {
+    logger.error(error);
+  }
+});
+
+export default route;
