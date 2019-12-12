@@ -23,7 +23,7 @@ class DataSource {
     }
   }
 
-  private async formatResponse(data: IDataSource[], limit: number, offset: number) {
+  private formatResponse(data: IDataSource[], limit: number, offset: number) {
     const totalCount = data.length;
     const listings = data.slice(offset * limit, (offset * limit) + limit);
     return {
@@ -40,7 +40,7 @@ class DataSource {
     const maxLon = -46.641146;
     const maxLat = -23.546686;
 
-    let isValid;
+    return (lat > maxLat && lat < minLat) && (minLon > lon && maxLon < lon);
   }
 
   private checkEligibleProperty(item: IDataSource, type: string, portal: string) {
@@ -63,9 +63,15 @@ class DataSource {
         }
       case 'viva-real':
         if (type === 'rent') {
+          let percent = 30;
+          const boundingBox = this.checkBoundingBox(item.address.geoLocation.location.lat, item.address.geoLocation.location.lon);
+
+          if (boundingBox) {
+            percent = 50;
+          }
 
           const monthlyCondoFee = parseInt(item.pricingInfos.monthlyCondoFee);
-          const total = (30 * 100) / parseInt(item.pricingInfos.price);
+          const total = (percent * 100) / parseInt(item.pricingInfos.price);
 
           if (typeof monthlyCondoFee !== 'number' || total > monthlyCondoFee) {
             return false;
@@ -84,15 +90,9 @@ class DataSource {
     });
   }
 
-  public async zapService({ type, limit, offset }: IServiceFilter) {
+  public async service({ type, limit, offset, service }: IServiceFilter) {
     const data = await this.get();
-    const res = this.getDataByPortal(data, type, 'zap');
-    return this.formatResponse(res, limit, offset);
-  }
-
-  public async vivaRealService({ type, limit, offset }: IServiceFilter) {
-    const data = await this.get();
-    const res = this.getDataByPortal(data, type, 'viva-real');
+    const res = this.getDataByPortal(data, type, service);
     return this.formatResponse(res, limit, offset);
   }
 };

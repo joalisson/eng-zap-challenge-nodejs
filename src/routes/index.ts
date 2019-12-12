@@ -7,7 +7,7 @@ const dataSource = new DataSource();
 
 route.get('/zap', async (req: express.Request, res: express.Response) => {
   try {
-    const data = await dataSource.zapService(req.query);
+    const data = await dataSource.service({ ...req.query, service: 'zap' });
     res.json(data);
   } catch (error) {
     logger.error(error);
@@ -16,7 +16,7 @@ route.get('/zap', async (req: express.Request, res: express.Response) => {
 
 route.get('/viva-real', async (req: express.Request, res: express.Response) => {
   try {
-    const data = await dataSource.vivaRealService(req.query);
+    const data = await dataSource.service({ ...req.query, service: 'viva-real' });
     res.json(data);
   } catch (error) {
     logger.error(error);
