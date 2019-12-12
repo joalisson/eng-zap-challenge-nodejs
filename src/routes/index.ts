@@ -1,15 +1,23 @@
 import * as express from 'express';
-import DataCache from '../dataCache';
 import logger from '../../logger';
+import DataSource from '../utils/DataSource';
 
 const route = express.Router();
+const dataSource = new DataSource();
 
-const dataCache = new DataCache();
-
-route.get('/hello', async (req: express.Request, res: express.Response) => {
+route.get('/zap', async (req: express.Request, res: express.Response) => {
   try {
-    const response: any = await dataCache.get();
-    res.json(response);
+    const data = await dataSource.zapService(req.query);
+    res.json(data);
+  } catch (error) {
+    logger.error(error);
+  }
+});
+
+route.get('/viva-real', async (req: express.Request, res: express.Response) => {
+  try {
+    const data = await dataSource.vivaRealService(req.query);
+    res.json(data);
   } catch (error) {
     logger.error(error);
   }
