@@ -2,3 +2,4 @@ node_modules
 yarn-error.log
 error.log
 combined.log
+datasource/data.json
